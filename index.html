@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Omilani Adejoke</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Omilani Adejoke - Biography</title>
     <style>
         * {
             margin: 0;
@@ -14,152 +14,308 @@
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
             background: white;
-            color: #2d1810;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        .navbar {
-            background: #8B2E2E;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-            position: sticky;
+        /* Three Line Menu Button - NO ROUND BOX */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-size: 32px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            transition: opacity 0.3s;
+        }
+
+        .menu-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* Sidebar Menu */
+        .sidebar {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: #8B2E2E;
+            z-index: 1001;
+            transition: left 0.3s ease;
+            padding-top: 70px;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.3);
         }
 
-        .navbar a {
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
             color: white;
             text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: 30px;
+            padding: 16px 24px;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
             transition: background 0.3s;
         }
 
-        .navbar a:hover {
+        .sidebar a:hover {
             background: rgba(255,255,255,0.2);
+            padding-left: 32px;
         }
 
+        .sidebar .orbitcore {
+            margin-top: 50px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding: 20px 24px;
+            font-size: 0.85rem;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Hero Section with Video */
         .hero {
-            min-height: 80vh;
+            position: relative;
+            height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/hero.jpg');
-            background-size: cover;
-            background-position: center;
+            overflow: hidden;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
             color: white;
+            padding: 20px;
         }
 
         .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
 
-        .hero-content p {
+        .hero-content .subline {
             font-size: 1.2rem;
-            margin-bottom: 24px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+            font-style: italic;
         }
 
-        .hero-content span {
-            font-size: 2rem;
-            display: block;
-            margin-top: 16px;
+        .explore-btn {
+            display: inline-block;
+            background: white;
+            color: #8B2E2E;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 14px 40px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
+        .explore-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Scrollable Content Sections */
+        .scroll-content {
+            background: white;
             padding: 60px 24px;
         }
 
-        .message-card {
-            background: white;
-            border-radius: 24px;
-            padding: 48px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            margin: 40px 0;
+        .story-card {
+            max-width: 600px;
+            margin: 0 auto 70px auto;
             text-align: center;
-            border: 1px solid #f0f0f0;
         }
 
-        .message-card h2 {
-            color: #8B2E2E;
-            font-size: 2rem;
-            margin-bottom: 24px;
+        .story-card img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
         }
 
-        .message-card p {
-            font-size: 1.1rem;
-            color: #333;
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-
-        .signature {
-            margin-top: 32px;
+        .beautiful-words {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #444;
             font-style: italic;
-            font-size: 1rem;
+            padding: 0 16px;
+        }
+
+        .beautiful-words::before {
+            content: "“";
+            font-size: 2rem;
             color: #8B2E2E;
+            font-style: normal;
+        }
+
+        .beautiful-words::after {
+            content: "”";
+            font-size: 2rem;
+            color: #8B2E2E;
+            font-style: normal;
+            vertical-align: top;
         }
 
         footer {
             background: #f8f8f8;
             color: #888;
             text-align: center;
-            padding: 24px;
-            font-size: 0.8rem;
+            padding: 30px 20px;
+            font-size: 0.75rem;
             border-top: 1px solid #eee;
         }
 
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2rem; }
-            .hero-content p { font-size: 1rem; }
-            .message-card { padding: 28px; }
-            .message-card p { font-size: 0.95rem; }
+        @media (max-width: 600px) {
+            .hero-content h1 { font-size: 1.8rem; }
+            .hero-content .subline { font-size: 1rem; }
+            .explore-btn { padding: 12px 30px; font-size: 1rem; }
+            .beautiful-words { font-size: 1rem; }
+            .scroll-content { padding: 40px 20px; }
+            .menu-btn { font-size: 28px; top: 15px; left: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="navbar">
+    <button class="menu-btn" id="menuBtn">☰</button>
+
+    <div class="sidebar" id="sidebar">
         <a href="index.html">🏠 Home</a>
+        <a href="about.html">👭 About My Sister</a>
         <a href="epistle.html">💌 My Letter to You</a>
         <a href="gallery.html">📸 Gallery</a>
+        <div class="orbitcore">✨ OrbitCore ✨</div>
     </div>
 
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Hero Section with Video -->
     <div class="hero">
+        <video autoplay muted loop playsinline id="heroVideo">
+            <source src="images/hero.mp4" type="video/mp4">
+        </video>
         <div class="hero-content">
-            <h1>Happy Birthday, Omilani Adejoke!</h1>
-            <p>Celebrating the most generous, caring, and beautiful soul I know</p>
-            <span>🎂 🎉 💝</span>
+            <h1>OMILANI ADEJOKE!</h1>
+            <div class="subline">Best sister ever</div>
+            <button class="explore-btn" id="exploreBtn">Explore →</button>
         </div>
     </div>
 
-    <div class="container">
-        <div class="message-card">
-            <h2>To My Dearest Sister,</h2>
-            <p>Though miles apart, my heart is with you today and always. On this special day, I celebrate not just your birth, but the incredible person you are.</p>
-            <p>You've been more than a sister to me. You've been a guide, a protector, and a second mother. Your love knows no bounds, and your heart is pure gold.</p>
-            <p>You are the kind of person who gives without expecting, loves without condition, and sacrifices without hesitation. That is your superpower.</p>
-            <div class="signature">
-                With all my love across the miles...<br>
-                <strong>Your Loving Sibling</strong>
+    <!-- Scrollable Content: Images with Beautiful Words -->
+    <div class="scroll-content" id="scrollContent">
+        
+        <!-- First Image: hero.jpg with beautiful words -->
+        <div class="story-card">
+            <img src="images/hero.jpg" alt="Omilani Adejoke" onerror="this.src='https://placehold.co/500x400/f0f0f0/888?text=Adejoke'">
+            <div class="beautiful-words">
+                A sister like you is a gift that keeps giving — kindness, laughter, and endless love.
+            </div>
+        </div>
+
+        <!-- Second Image: caring.jpg with beautiful words -->
+        <div class="story-card">
+            <img src="images/caring.jpg" alt="Caring Heart" onerror="this.src='https://placehold.co/500x400/f0f0f0/888?text=Caring+Heart'">
+            <div class="beautiful-words">
+                She doesn't just care — she pours her whole soul into loving everyone around her.
             </div>
         </div>
     </div>
 
     <footer>
-        <p>Made with love ❤️ for Omilani Adejoke | Celebrating You Today & Always</p>
+        <p>Made with love ❤️ for Omilani Adejoke</p>
+        <p style="margin-top: 6px; font-size: 0.7rem;">✨ OrbitCore — crafted with heart ✨</p>
     </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        function openMenu() {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (sidebar.classList.contains('open')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        overlay.addEventListener('click', closeMenu);
+
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                closeMenu();
+            });
+        });
+
+        // Explore button scrolls to first image
+        const exploreBtn = document.getElementById('exploreBtn');
+        exploreBtn.addEventListener('click', () => {
+            document.getElementById('scrollContent').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Video fallback
+        const heroVideo = document.getElementById('heroVideo');
+        if (heroVideo) {
+            heroVideo.addEventListener('error', function() {
+                const hero = document.querySelector('.hero');
+                hero.style.background = '#8B2E2E';
+            });
+        }
+    </script>
 </body>
 </html>
