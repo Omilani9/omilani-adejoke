@@ -20,21 +20,66 @@
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; display: none; }
         .overlay.active { display: block; }
         
-        .container { max-width: 800px; margin: 0 auto; padding: 100px 24px 60px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 100px 24px 60px; }
         h1 { color: #8B2E2E; font-size: 2rem; text-align: center; margin-bottom: 40px; }
         
-        .gallery-grid { display: flex; flex-direction: column; gap: 30px; }
-        .memory-card { background: white; border-radius: 24px; padding: 28px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 6px solid #8B2E2E; transition: transform 0.3s; }
-        .memory-card:hover { transform: translateX(5px); }
-        .memory-card .emoji { font-size: 2rem; margin-bottom: 12px; }
-        .memory-card h3 { color: #8B2E2E; margin-bottom: 12px; font-size: 1.2rem; }
-        .memory-card p { color: #555; line-height: 1.6; }
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+            margin-bottom: 50px;
+        }
         
-        .back-home { display: inline-block; margin-top: 50px; background: #8B2E2E; color: white; text-decoration: none; padding: 12px 28px; border-radius: 40px; transition: all 0.3s; }
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-item .caption {
+            padding: 15px;
+            text-align: center;
+            color: #8B2E2E;
+            font-style: italic;
+            font-size: 0.9rem;
+            background: #fef5f0;
+        }
+        
+        .back-home { 
+            display: inline-block; 
+            margin-top: 20px; 
+            background: #8B2E2E; 
+            color: white; 
+            text-decoration: none; 
+            padding: 12px 28px; 
+            border-radius: 40px; 
+            transition: all 0.3s; 
+        }
         .back-home:hover { background: #6b2222; }
+        
         footer { background: #f8f8f8; color: #888; text-align: center; padding: 30px 20px; font-size: 0.75rem; border-top: 1px solid #eee; margin-top: 40px; }
         
-        @media (max-width: 600px) { .container { padding: 80px 20px 40px; } h1 { font-size: 1.5rem; } .memory-card { padding: 20px; } .menu-btn { font-size: 28px; top: 15px; left: 15px; } }
+        @media (max-width: 600px) { 
+            .container { padding: 80px 20px 40px; } 
+            h1 { font-size: 1.5rem; } 
+            .menu-btn { font-size: 28px; top: 15px; left: 15px; }
+            .gallery-grid { grid-template-columns: 1fr; gap: 20px; }
+            .gallery-item img { height: 220px; }
+        }
     </style>
 </head>
 <body>
@@ -53,12 +98,30 @@
         <h1>📸 Beautiful Moments with Adejoke</h1>
         
         <div class="gallery-grid">
-            <div class="memory-card"><div class="emoji">🌸</div><h3>Her Caring Heart</h3><p>Always putting family first — the one who calls just to say "I love you."</p></div>
-            <div class="memory-card"><div class="emoji">🌟</div><h3>Her Strength</h3><p>Living miles away in the UK, yet never missing a chance to support us.</p></div>
-            <div class="memory-card"><div class="emoji">💖</div><h3>Her Love</h3><p>A sister, a guide, a second mother — our family's greatest gift.</p></div>
-            <div class="memory-card"><div class="emoji">🎂</div><h3>Today We Celebrate YOU</h3><p>The most generous soul I know. Happy birthday, Adejoke!</p></div>
-            <div class="memory-card"><div class="emoji">☎️</div><h3>Late-Night Calls</h3><p>She answers every single one with a sleepy but loving voice.</p></div>
-            <div class="memory-card"><div class="emoji">🤗</div><h3>Warmest Hugs</h3><p>Her hugs could heal anything — I miss them every day.</p></div>
+            <div class="gallery-item">
+                <img src="images/gallery1.jpg" alt="Memory 1" onerror="this.src='https://placehold.co/400x300/f0f0f0/888?text=Gallery+1'">
+                <div class="caption">💖 Beautiful memory</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery2.jpg" alt="Memory 2" onerror="this.src='https://placehold.co/400x300/f0f0f0/888?text=Gallery+2'">
+                <div class="caption">🌸 Sister love</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery3.jpg" alt="Memory 3" onerror="this.src='https://placehold.co/400x300/f0f0f0/888?text=Gallery+3'">
+                <div class="caption">🌟 Shining bright</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery4.jpg" alt="Memory 4" onerror="this.src='https://placehold.co/400x300/f0f0f0/888?text=Gallery+4'">
+                <div class="caption">💕 Always caring</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery5.jpg" alt="Memory 5" onerror="this.src='https://placehold.co/400x300/f0f0f0/888?text=Gallery+5'">
+                <div class="caption">🎉 Happy moments</div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery6.jpg" alt="Memory 6" onerror="this.src='https://placehold.co/400x300/f0f0f0/888?text=Gallery+6'">
+                <div class="caption">✨ Simply the best</div>
+            </div>
         </div>
         
         <div style="text-align: center;">
