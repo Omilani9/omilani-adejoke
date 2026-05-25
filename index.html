@@ -12,12 +12,11 @@
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', Georgia, serif;
             background: white;
             line-height: 1.5;
         }
 
-        /* Three Line Menu Button - NO ROUND BOX */
         .menu-btn {
             position: fixed;
             top: 20px;
@@ -26,7 +25,7 @@
             cursor: pointer;
             background: transparent;
             border: none;
-            font-size: 32px;
+            font-size: 28px;
             color: white;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             transition: opacity 0.3s;
@@ -36,7 +35,6 @@
             opacity: 0.7;
         }
 
-        /* Sidebar Menu */
         .sidebar {
             position: fixed;
             top: 0;
@@ -59,7 +57,8 @@
             color: white;
             text-decoration: none;
             padding: 16px 24px;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             border-bottom: 1px solid rgba(255,255,255,0.15);
             transition: background 0.3s;
         }
@@ -73,10 +72,11 @@
             margin-top: 50px;
             border-top: 1px solid rgba(255,255,255,0.3);
             padding: 20px 24px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
             color: rgba(255,255,255,0.7);
             font-style: italic;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .overlay {
@@ -94,7 +94,6 @@
             display: block;
         }
 
-        /* Hero Section with Video */
         .hero {
             position: relative;
             height: 100vh;
@@ -127,6 +126,7 @@
             font-size: 2.5rem;
             margin-bottom: 10px;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Georgia, serif;
         }
 
         .hero-content .subline {
@@ -149,13 +149,13 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             border: none;
             cursor: pointer;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .explore-btn:hover {
             transform: scale(1.05);
         }
 
-        /* Scrollable Content Sections */
         .scroll-content {
             background: white;
             padding: 60px 24px;
@@ -181,6 +181,7 @@
             color: #444;
             font-style: italic;
             padding: 0 16px;
+            font-family: -apple-system, BlinkMacSystemFont, Georgia, serif;
         }
 
         .beautiful-words::before {
@@ -213,7 +214,7 @@
             .explore-btn { padding: 12px 30px; font-size: 1rem; }
             .beautiful-words { font-size: 1rem; }
             .scroll-content { padding: 40px 20px; }
-            .menu-btn { font-size: 28px; top: 15px; left: 15px; }
+            .menu-btn { font-size: 24px; top: 15px; left: 15px; }
         }
     </style>
 </head>
@@ -222,16 +223,15 @@
     <button class="menu-btn" id="menuBtn">☰</button>
 
     <div class="sidebar" id="sidebar">
-        <a href="index.html">🏠 Home</a>
-        <a href="about.html">👭 About My Sister</a>
-        <a href="epistle.html">💌 My Letter to You</a>
-        <a href="gallery.html">📸 Gallery</a>
-        <div class="orbitcore">✨ OrbitCore ✨</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About My Sister</a>
+        <a href="epistle.html">My Letter to You</a>
+        <a href="gallery.html">Gallery</a>
+        <div class="orbitcore">OrbitCore</div>
     </div>
 
     <div class="overlay" id="overlay"></div>
 
-    <!-- Hero Section with Video -->
     <div class="hero">
         <video autoplay muted loop playsinline id="heroVideo">
             <source src="images/hero.mp4" type="video/mp4">
@@ -243,10 +243,7 @@
         </div>
     </div>
 
-    <!-- Scrollable Content: Images with Beautiful Words -->
     <div class="scroll-content" id="scrollContent">
-        
-        <!-- First Image: hero.jpg with beautiful words -->
         <div class="story-card">
             <img src="images/hero.jpg" alt="Omilani Adejoke" onerror="this.src='https://placehold.co/500x400/f0f0f0/888?text=Adejoke'">
             <div class="beautiful-words">
@@ -254,7 +251,6 @@
             </div>
         </div>
 
-        <!-- Second Image: caring.jpg with beautiful words -->
         <div class="story-card">
             <img src="images/caring.jpg" alt="Caring Heart" onerror="this.src='https://placehold.co/500x400/f0f0f0/888?text=Caring+Heart'">
             <div class="beautiful-words">
@@ -264,8 +260,8 @@
     </div>
 
     <footer>
-        <p>Made with love ❤️ for Omilani Adejoke</p>
-        <p style="margin-top: 6px; font-size: 0.7rem;">✨ OrbitCore — crafted with heart ✨</p>
+        <p>Made with love for Omilani Adejoke</p>
+        <p style="margin-top: 6px; font-size: 0.7rem;">OrbitCore — crafted with heart</p>
     </footer>
 
     <script>
@@ -302,13 +298,11 @@
             });
         });
 
-        // Explore button scrolls to first image
         const exploreBtn = document.getElementById('exploreBtn');
         exploreBtn.addEventListener('click', () => {
             document.getElementById('scrollContent').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Video fallback
         const heroVideo = document.getElementById('heroVideo');
         if (heroVideo) {
             heroVideo.addEventListener('error', function() {
