@@ -58,7 +58,7 @@
             text-decoration: none;
             padding: 16px 24px;
             font-size: 1rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             border-bottom: 1px solid rgba(255,255,255,0.15);
             transition: background 0.3s;
         }
@@ -199,6 +199,83 @@
             vertical-align: top;
         }
 
+        /* Comment Section */
+        .comment-section {
+            background: #f9f9f9;
+            padding: 50px 24px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .comment-section h3 {
+            color: #8B2E2E;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Georgia, serif;
+        }
+
+        .comment-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .comment-form input, .comment-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            resize: vertical;
+        }
+
+        .comment-form textarea {
+            min-height: 100px;
+        }
+
+        .comment-form button {
+            background: #8B2E2E;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .comment-form button:hover {
+            background: #6b2222;
+        }
+
+        .comments-list {
+            max-width: 500px;
+            margin: 30px auto 0;
+            text-align: left;
+        }
+
+        .comment-item {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #8B2E2E;
+        }
+
+        .comment-name {
+            font-weight: bold;
+            color: #8B2E2E;
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
         footer {
             background: #f8f8f8;
             color: #888;
@@ -215,6 +292,7 @@
             .beautiful-words { font-size: 1rem; }
             .scroll-content { padding: 40px 20px; }
             .menu-btn { font-size: 24px; top: 15px; left: 15px; }
+            .comment-section h3 { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -227,7 +305,18 @@
         <a href="about.html">About My Sister</a>
         <a href="epistle.html">My Letter to You</a>
         <a href="gallery.html">Gallery</a>
+        <a href="#" id="contactBtn">Contact Us</a>
         <div class="orbitcore">OrbitCore</div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center;">
+        <div style="background:white; max-width:350px; margin:20px; padding:30px; border-radius:24px; text-align:center;">
+            <h3 style="color:#8B2E2E; margin-bottom:20px;">OrbitCore</h3>
+            <p style="margin:10px 0;">📞 2349134186826</p>
+            <p style="margin:10px 0;">✉️ omilaniwareez@gmail.com</p>
+            <button onclick="document.getElementById('contactModal').style.display='none'" style="margin-top:20px; background:#8B2E2E; color:white; border:none; padding:10px 20px; border-radius:40px; cursor:pointer;">Close</button>
+        </div>
     </div>
 
     <div class="overlay" id="overlay"></div>
@@ -256,6 +345,19 @@
             <div class="beautiful-words">
                 She doesn't just care — she pours her whole soul into loving everyone around her.
             </div>
+        </div>
+    </div>
+
+    <!-- Comment Section -->
+    <div class="comment-section">
+        <h3>💬 Leave a Birthday Wish</h3>
+        <div class="comment-form">
+            <input type="text" id="commentName" placeholder="Your name">
+            <textarea id="commentMessage" placeholder="Write your birthday message for Adejoke..."></textarea>
+            <button id="submitComment">Post Message</button>
+        </div>
+        <div class="comments-list" id="commentsList">
+            <div class="comment-item"><div class="comment-name">🎂 Birthday Wishes</div><div class="comment-text">Be the first to leave a message for Adejoke!</div></div>
         </div>
     </div>
 
@@ -293,7 +395,11 @@
         overlay.addEventListener('click', closeMenu);
 
         document.querySelectorAll('.sidebar a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                if (link.id === 'contactBtn') {
+                    e.preventDefault();
+                    document.getElementById('contactModal').style.display = 'flex';
+                }
                 closeMenu();
             });
         });
@@ -310,6 +416,46 @@
                 hero.style.background = '#8B2E2E';
             });
         }
+
+        // Comments functionality
+        let comments = JSON.parse(localStorage.getItem('adejokeComments') || '[]');
+        
+        function displayComments() {
+            const commentsList = document.getElementById('commentsList');
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<div class="comment-item"><div class="comment-name">🎂 Birthday Wishes</div><div class="comment-text">Be the first to leave a message for Adejoke!</div></div>';
+                return;
+            }
+            commentsList.innerHTML = comments.map(c => `
+                <div class="comment-item">
+                    <div class="comment-name">${escapeHtml(c.name)}</div>
+                    <div class="comment-text">${escapeHtml(c.message)}</div>
+                </div>
+            `).join('');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        document.getElementById('submitComment').addEventListener('click', () => {
+            const name = document.getElementById('commentName').value.trim();
+            const message = document.getElementById('commentMessage').value.trim();
+            if (name && message) {
+                comments.unshift({ name, message, date: new Date().toISOString() });
+                if (comments.length > 20) comments.pop();
+                localStorage.setItem('adejokeComments', JSON.stringify(comments));
+                displayComments();
+                document.getElementById('commentName').value = '';
+                document.getElementById('commentMessage').value = '';
+            } else {
+                alert('Please enter both name and message');
+            }
+        });
+        
+        displayComments();
     </script>
 </body>
 </html>
