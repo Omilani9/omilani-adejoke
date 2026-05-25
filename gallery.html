@@ -21,10 +21,10 @@
         h1 { color: #8B2E2E; font-size: 2rem; text-align: center; margin-bottom: 40px; }
         
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
-        .gallery-item { position: relative; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .gallery-item { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s; text-align: center; }
         .gallery-item:hover { transform: translateY(-5px); }
         .gallery-item img { width: 100%; height: auto; display: block; }
-        .gallery-item .words { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; text-align: center; color: white; font-style: italic; background: linear-gradient(transparent, rgba(0,0,0,0.7)); font-weight: bold; text-shadow: 1px 1px 2px black; }
+        .gallery-item .words { padding: 15px; text-align: center; color: #8B2E2E; font-style: italic; background: #fef5f0; font-weight: bold; font-size: 1.1rem; }
         
         .back-home { display: inline-block; margin-top: 20px; background: #8B2E2E; color: white; text-decoration: none; padding: 12px 28px; border-radius: 40px; }
         
@@ -76,13 +76,13 @@
     <div class="container">
         <h1>Gallery of Beautiful Moments</h1>
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="images/gallery1.jpg" alt="Memory 1"><div class="words">Amazing</div></div>
-            <div class="gallery-item"><img src="images/gallery2.jpg" alt="Memory 2"><div class="words">Delightful</div></div>
-            <div class="gallery-item"><img src="images/gallery3.jpg" alt="Memory 3"><div class="words">Elegant</div></div>
-            <div class="gallery-item"><img src="images/gallery4.jpg" alt="Memory 4"><div class="words">Joyful</div></div>
-            <div class="gallery-item"><img src="images/gallery5.jpg" alt="Memory 5"><div class="words">Outstanding</div></div>
-            <div class="gallery-item"><img src="images/gallery6.jpg" alt="Memory 6"><div class="words">Kindhearted</div></div>
-            <div class="gallery-item"><img src="images/hero.jpg" alt="Hero"><div class="words">Exceptional</div></div>
+            <div class="gallery-item"><div class="words">Amazing</div><img src="images/gallery1.jpg" alt="Memory 1"></div>
+            <div class="gallery-item"><div class="words">Delightful</div><img src="images/gallery2.jpg" alt="Memory 2"></div>
+            <div class="gallery-item"><div class="words">Elegant</div><img src="images/gallery3.jpg" alt="Memory 3"></div>
+            <div class="gallery-item"><div class="words">Joyful</div><img src="images/gallery4.jpg" alt="Memory 4"></div>
+            <div class="gallery-item"><div class="words">Outstanding</div><img src="images/gallery5.jpg" alt="Memory 5"></div>
+            <div class="gallery-item"><div class="words">Kindhearted</div><img src="images/gallery6.jpg" alt="Memory 6"></div>
+            <div class="gallery-item"><div class="words">Exceptional</div><img src="images/hero.jpg" alt="Hero"></div>
         </div>
         <div style="text-align: center;"><a href="index.html" class="back-home">← Back to Home</a></div>
     </div>
