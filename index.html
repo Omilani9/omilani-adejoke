@@ -164,6 +164,24 @@
             transform: scale(1.05);
         }
 
+        .song-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .song-btn:hover {
+            background: white;
+            color: #8B2E2E;
+        }
+
         .scroll-content {
             background: white;
             padding: 60px 24px;
@@ -207,6 +225,69 @@
             vertical-align: top;
         }
 
+        .comment-section {
+            background: #f9f9f9;
+            padding: 50px 24px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        .comment-section h3 {
+            color: #8B2E2E;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .comment-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .comment-form input, .comment-form textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            resize: vertical;
+        }
+        .comment-form textarea {
+            min-height: 100px;
+        }
+        .comment-form button {
+            background: #8B2E2E;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .comment-form button:hover {
+            background: #6b2222;
+        }
+        .comments-list {
+            max-width: 500px;
+            margin: 30px auto 0;
+            text-align: left;
+        }
+        .comment-item {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #8B2E2E;
+        }
+        .comment-name {
+            font-weight: bold;
+            color: #8B2E2E;
+            margin-bottom: 5px;
+        }
+        .comment-text {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
         footer {
             background: #f8f8f8;
             color: #888;
@@ -235,7 +316,17 @@
         <a href="about.html">About My Sister</a>
         <a href="epistle.html">My Letter to You</a>
         <a href="gallery.html">Gallery</a>
+        <a href="#" id="contactBtn">Contact Us</a>
         <div class="orbitcore">OrbitCore</div>
+    </div>
+
+    <div id="contactModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center;">
+        <div style="background:white; max-width:350px; margin:20px; padding:30px; border-radius:24px; text-align:center;">
+            <h3 style="color:#8B2E2E; margin-bottom:20px;">Contact</h3>
+            <p>📞 2349134186826</p>
+            <p>✉️ omilaniwareez@gmail.com</p>
+            <button onclick="document.getElementById('contactModal').style.display='none'" style="margin-top:20px; background:#8B2E2E; color:white; border:none; padding:10px 20px; border-radius:40px; cursor:pointer;">Close</button>
+        </div>
     </div>
 
     <div class="overlay" id="overlay"></div>
@@ -248,8 +339,12 @@
             <h1>OMILANI ADEJOKE!</h1>
             <div class="subline">Best sister ever</div>
             <button class="explore-btn" id="exploreBtn">Explore →</button>
+            <br>
+            <button class="song-btn" id="playSong">🎵 Play Song for Adejoke</button>
         </div>
     </div>
+
+    <audio id="sisterSong" src="images/song.mp3"></audio>
 
     <div class="scroll-content" id="scrollContent">
         <div class="story-card">
@@ -265,6 +360,16 @@
                 She doesn't just care — she pours her whole soul into loving everyone around her.
             </div>
         </div>
+    </div>
+
+    <div class="comment-section">
+        <h3>💬 Leave a Birthday Wish</h3>
+        <div class="comment-form">
+            <input type="text" id="commentName" placeholder="Your name">
+            <textarea id="commentMessage" placeholder="Write your birthday message for Adejoke..."></textarea>
+            <button id="submitComment">Post Message</button>
+        </div>
+        <div class="comments-list" id="commentsList"></div>
     </div>
 
     <footer>
@@ -301,7 +406,11 @@
         overlay.addEventListener('click', closeMenu);
 
         document.querySelectorAll('.sidebar a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                if (link.id === 'contactBtn') {
+                    e.preventDefault();
+                    document.getElementById('contactModal').style.display = 'flex';
+                }
                 closeMenu();
             });
         });
@@ -318,6 +427,49 @@
                 hero.style.background = '#8B2E2E';
             });
         }
+
+        // Song player
+        const playBtn = document.getElementById('playSong');
+        const audio = document.getElementById('sisterSong');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.textContent = '🎵 Play Song for Adejoke';
+            } else {
+                audio.play();
+                playBtn.textContent = '⏸ Pause Song';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Comments
+        let comments = JSON.parse(localStorage.getItem('adejokeComments') || '[]');
+        function displayComments() {
+            const container = document.getElementById('commentsList');
+            if (comments.length === 0) {
+                container.innerHTML = '<div class="comment-item"><div class="comment-name">🎂 Birthday Wishes</div><div class="comment-text">Be the first to leave a message for Adejoke!</div></div>';
+                return;
+            }
+            function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+            container.innerHTML = comments.map(c => `<div class="comment-item"><div class="comment-name">${escapeHtml(c.name)}</div><div class="comment-text">${escapeHtml(c.message)}</div></div>`).join('');
+        }
+        document.getElementById('submitComment')?.addEventListener('click', () => {
+            const name = document.getElementById('commentName').value.trim();
+            const msg = document.getElementById('commentMessage').value.trim();
+            if (name && msg) {
+                comments.unshift({ name, message: msg });
+                if (comments.length > 20) comments.pop();
+                localStorage.setItem('adejokeComments', JSON.stringify(comments));
+                displayComments();
+                document.getElementById('commentName').value = '';
+                document.getElementById('commentMessage').value = '';
+            } else {
+                alert('Please enter both name and message');
+            }
+        });
+        displayComments();
     </script>
 </body>
 </html>
