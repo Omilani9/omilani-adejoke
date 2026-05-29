@@ -7,7 +7,6 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', Georgia, serif; background: white; color: #2d1810; line-height: 1.6; }
-        
         .menu-btn { position: fixed; top: 20px; left: 20px; z-index: 1000; cursor: pointer; background: transparent; border: none; font-size: 28px; color: #8B2E2E; transition: opacity 0.3s; }
         .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #8B2E2E; z-index: 1001; transition: left 0.3s ease; padding-top: 70px; box-shadow: 2px 0 15px rgba(0,0,0,0.3); }
         .sidebar.open { left: 0; }
@@ -16,28 +15,18 @@
         .sidebar .orbitcore { margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.3); padding: 20px 24px; font-size: 0.8rem; text-align: center; color: rgba(255,255,255,0.7); font-style: italic; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; display: none; }
         .overlay.active { display: block; }
-        
         .container { max-width: 1000px; margin: 0 auto; padding: 100px 24px 60px; }
         h1 { color: #8B2E2E; font-size: 2rem; text-align: center; margin-bottom: 40px; }
-        
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
         .gallery-item { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s; text-align: center; }
         .gallery-item:hover { transform: translateY(-5px); }
         .gallery-item img { width: 100%; height: auto; display: block; }
         .gallery-item .words { padding: 15px; text-align: center; color: #8B2E2E; font-style: italic; background: #fef5f0; font-weight: bold; font-size: 1.1rem; }
-        
         .back-home { display: inline-block; margin-top: 20px; background: #8B2E2E; color: white; text-decoration: none; padding: 12px 28px; border-radius: 40px; }
-        
-        .comment-section {
-            background: #f9f9f9;
-            padding: 50px 24px;
-            text-align: center;
-            border-top: 1px solid #eee;
-            margin-top: 40px;
-        }
+        .comment-section { background: #f9f9f9; padding: 50px 24px; text-align: center; border-top: 1px solid #eee; margin-top: 40px; }
         .comment-section h3 { color: #8B2E2E; font-size: 1.5rem; margin-bottom: 20px; }
         .comment-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .comment-form input, .comment-form textarea { padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; resize: vertical; }
+        .comment-form input, .comment-form textarea { padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; resize: vertical; }
         .comment-form textarea { min-height: 100px; }
         .comment-form button { background: #8B2E2E; color: white; border: none; padding: 12px; border-radius: 40px; font-size: 1rem; cursor: pointer; }
         .comment-form button:hover { background: #6b2222; }
@@ -45,9 +34,7 @@
         .comment-item { background: white; padding: 15px; border-radius: 16px; margin-bottom: 12px; border-left: 4px solid #8B2E2E; }
         .comment-name { font-weight: bold; color: #8B2E2E; margin-bottom: 5px; }
         .comment-text { color: #555; font-size: 0.9rem; }
-        
         footer { background: #f8f8f8; color: #888; text-align: center; padding: 30px 20px; font-size: 0.75rem; border-top: 1px solid #eee; }
-        
         @media (max-width: 600px) { .container { padding: 80px 20px 40px; } h1 { font-size: 1.5rem; } .menu-btn { font-size: 24px; } .gallery-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -100,12 +87,11 @@
     <footer><p>Made with love for Omilani Adejoke</p><p>OrbitCore — crafted with heart</p></footer>
 
     <!-- Music Player with Mobile Fix -->
-    <div id="musicPlayer" style="position:fixed; bottom:20px; right:20px; background:#8B2E2E; color:white; padding:12px 20px; border-radius:50px; z-index:9999; cursor:pointer; font-family:-apple-system, BlinkMacSystemFont, sans-serif; font-size:14px; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.2); opacity:0.7;">
-        🎵 Tap to Play
-    </div>
+    <div id="musicPlayer" style="position:fixed; bottom:20px; right:20px; background:#8B2E2E; color:white; padding:12px 20px; border-radius:50px; z-index:9999; cursor:pointer; font-family:-apple-system, BlinkMacSystemFont, sans-serif; font-size:14px; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.2); opacity:0.7;">🎵 Tap to Play</div>
     <audio id="bgMusic" src="images/song.mp3" loop preload="none"></audio>
 
     <script>
+    // MUSIC PLAYER
     let audioLoaded = false;
     let audio = document.getElementById('bgMusic');
     let btn = document.getElementById('musicPlayer');
@@ -113,100 +99,106 @@
     
     function loadAndPrepareAudio() {
         if (audioLoaded) return;
-        
         audio.load();
         const savedTime = sessionStorage.getItem('songTimestamp');
-        if (savedTime && !isNaN(parseFloat(savedTime))) {
-            audio.currentTime = parseFloat(savedTime);
-        }
+        if (savedTime && !isNaN(parseFloat(savedTime))) audio.currentTime = parseFloat(savedTime);
         audioLoaded = true;
         btn.style.opacity = '1';
         btn.innerHTML = '🎵 Play Music';
-        
         if (sessionStorage.getItem('musicWasPlaying') === 'true') {
-            audio.play().then(() => {
-                isPlaying = true;
-                btn.innerHTML = '🔊 Pause Music';
-            }).catch(() => {});
+            audio.play().then(() => { isPlaying = true; btn.innerHTML = '🔊 Pause Music'; }).catch(() => {});
         }
     }
     
     document.body.addEventListener('touchstart', loadAndPrepareAudio, { once: true });
     document.body.addEventListener('click', loadAndPrepareAudio, { once: true });
     
-    function updateButton() {
-        btn.innerHTML = isPlaying ? '🔊 Pause Music' : '🎵 Play Music';
-    }
+    function updateButton() { btn.innerHTML = isPlaying ? '🔊 Pause Music' : '🎵 Play Music'; }
     
-    setInterval(() => {
-        if (isPlaying && audioLoaded) {
-            sessionStorage.setItem('songTimestamp', audio.currentTime);
-        }
-    }, 500);
+    setInterval(() => { if (isPlaying && audioLoaded) sessionStorage.setItem('songTimestamp', audio.currentTime); }, 500);
     
     window.addEventListener('beforeunload', () => {
         if (isPlaying && audioLoaded) {
             sessionStorage.setItem('songTimestamp', audio.currentTime);
             sessionStorage.setItem('musicWasPlaying', 'true');
-        } else {
-            sessionStorage.setItem('musicWasPlaying', 'false');
-        }
+        } else { sessionStorage.setItem('musicWasPlaying', 'false'); }
     });
     
     btn.addEventListener('click', () => {
         if (!audioLoaded) {
             loadAndPrepareAudio();
-            setTimeout(() => {
-                audio.play();
-                isPlaying = true;
-                updateButton();
-            }, 100);
+            setTimeout(() => { audio.play(); isPlaying = true; updateButton(); }, 100);
             return;
         }
-        
         if (isPlaying) {
-            audio.pause();
-            isPlaying = false;
+            audio.pause(); isPlaying = false;
             sessionStorage.setItem('musicWasPlaying', 'false');
         } else {
             const saved = sessionStorage.getItem('songTimestamp');
-            if (saved && !isNaN(parseFloat(saved))) {
-                audio.currentTime = parseFloat(saved);
-            }
-            audio.play();
-            isPlaying = true;
+            if (saved && !isNaN(parseFloat(saved))) audio.currentTime = parseFloat(saved);
+            audio.play(); isPlaying = true;
             sessionStorage.setItem('musicWasPlaying', 'true');
         }
         updateButton();
     });
 
-        const menuBtn = document.getElementById('menuBtn');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        function openMenu() { sidebar.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeMenu() { sidebar.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
-        menuBtn.addEventListener('click', (e) => { e.stopPropagation(); if (sidebar.classList.contains('open')) { closeMenu(); } else { openMenu(); } });
-        overlay.addEventListener('click', closeMenu);
-        document.querySelectorAll('.sidebar a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                if (link.id === 'contactBtn') { e.preventDefault(); document.getElementById('contactModal').style.display = 'flex'; }
-                closeMenu();
+    // SIDEBAR
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    function openMenu() { sidebar.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeMenu() { sidebar.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); if (sidebar.classList.contains('open')) closeMenu(); else openMenu(); });
+    overlay.addEventListener('click', closeMenu);
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (link.id === 'contactBtn') { e.preventDefault(); document.getElementById('contactModal').style.display = 'flex'; }
+            closeMenu();
+        });
+    });
+
+    // COMMENTS WITH GOOGLE SHEETS
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbz04rv0-PGmq1teai1ejiyhE1APijtnGBoGKL6K7ELKQOoIc_d1dmGD74_xhmNg2-WI4g/exec";
+    
+    function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    
+    document.getElementById('submitComment')?.addEventListener('click', () => {
+        const name = document.getElementById('commentName').value.trim();
+        const msg = document.getElementById('commentMessage').value.trim();
+        const page = window.location.pathname.split('/').pop() || 'gallery.html';
+        
+        if (name && msg) {
+            fetch(GOOGLE_SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, message: msg, page })
             });
-        });
-        let comments = JSON.parse(localStorage.getItem('adejokeComments') || '[]');
-        function displayComments() {
+            
             const container = document.getElementById('commentsList');
-            if (comments.length === 0) { container.innerHTML = '<div class="comment-item"><div class="comment-name">🎂 Birthday Wishes</div><div class="comment-text">Be the first to leave a message for Adejoke!</div></div>'; return; }
-            function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-            container.innerHTML = comments.map(c => `<div class="comment-item"><div class="comment-name">${escapeHtml(c.name)}</div><div class="comment-text">${escapeHtml(c.message)}</div></div>`).join('');
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.innerHTML = `<div class="comment-name">${escapeHtml(name)}</div><div class="comment-text">${escapeHtml(msg)}</div>`;
+            container.prepend(newComment);
+            
+            document.getElementById('commentName').value = '';
+            document.getElementById('commentMessage').value = '';
+            alert('Message sent! ❤️');
+        } else {
+            alert('Please enter both name and message');
         }
-        document.getElementById('submitComment')?.addEventListener('click', () => {
-            const name = document.getElementById('commentName').value.trim();
-            const msg = document.getElementById('commentMessage').value.trim();
-            if (name && msg) { comments.unshift({ name, message: msg }); if (comments.length > 20) comments.pop(); localStorage.setItem('adejokeComments', JSON.stringify(comments)); displayComments(); document.getElementById('commentName').value = ''; document.getElementById('commentMessage').value = ''; }
-            else { alert('Please enter both name and message'); }
-        });
-        displayComments();
+    });
+    
+    let comments = JSON.parse(localStorage.getItem('adejokeComments') || '[]');
+    function displayComments() {
+        const container = document.getElementById('commentsList');
+        if (comments.length === 0) {
+            container.innerHTML = '<div class="comment-item"><div class="comment-name">🎂 Birthday Wishes</div><div class="comment-text">Be the first to leave a message for Adejoke!</div></div>';
+            return;
+        }
+        container.innerHTML = comments.map(c => `<div class="comment-item"><div class="comment-name">${escapeHtml(c.name)}</div><div class="comment-text">${escapeHtml(c.message)}</div></div>`).join('');
+    }
+    displayComments();
     </script>
 </body>
 </html>
