@@ -99,32 +99,23 @@
 
     <footer><p>Made with love for Omilani Adejoke</p><p>OrbitCore — crafted with heart</p></footer>
 
-    <!-- Music Player with Timestamp -->
+    <!-- Music Player with Timestamp (Fixed) -->
     <div id="musicPlayer" style="position:fixed; bottom:20px; right:20px; background:#8B2E2E; color:white; padding:12px 20px; border-radius:50px; z-index:9999; cursor:pointer; font-family:-apple-system, BlinkMacSystemFont, sans-serif; font-size:14px; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
         🎵 Play Music
     </div>
-    <audio id="bgMusic" src="images/song.mp3" loop></audio>
+    <audio id="bgMusic" src="images/song.mp3" loop preload="auto"></audio>
 
     <script>
+    (function() {
         const audio = document.getElementById('bgMusic');
         const btn = document.getElementById('musicPlayer');
         
-        const savedTime = localStorage.getItem('songTimestamp');
+        const savedTime = sessionStorage.getItem('songTimestamp');
+        const wasPlaying = sessionStorage.getItem('musicWasPlaying') === 'true';
+        
         if (savedTime && !isNaN(parseFloat(savedTime))) {
             audio.currentTime = parseFloat(savedTime);
         }
-        
-        setInterval(() => {
-            if (!audio.paused) {
-                localStorage.setItem('songTimestamp', audio.currentTime);
-            }
-        }, 1000);
-        
-        window.addEventListener('beforeunload', () => {
-            if (!audio.paused) {
-                localStorage.setItem('songTimestamp', audio.currentTime);
-            }
-        });
         
         let isPlaying = false;
         
@@ -132,33 +123,48 @@
             btn.innerHTML = isPlaying ? '🔊 Pause Music' : '🎵 Play Music';
         }
         
+        setInterval(() => {
+            if (isPlaying) {
+                sessionStorage.setItem('songTimestamp', audio.currentTime);
+            }
+        }, 500);
+        
+        window.addEventListener('beforeunload', () => {
+            if (isPlaying) {
+                sessionStorage.setItem('songTimestamp', audio.currentTime);
+                sessionStorage.setItem('musicWasPlaying', 'true');
+            } else {
+                sessionStorage.setItem('musicWasPlaying', 'false');
+            }
+        });
+        
         btn.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
                 isPlaying = false;
+                sessionStorage.setItem('musicWasPlaying', 'false');
             } else {
+                const saved = sessionStorage.getItem('songTimestamp');
+                if (saved && !isNaN(parseFloat(saved))) {
+                    audio.currentTime = parseFloat(saved);
+                }
                 audio.play();
                 isPlaying = true;
+                sessionStorage.setItem('musicWasPlaying', 'true');
             }
             updateButton();
         });
         
-        const wasPlaying = localStorage.getItem('musicWasPlaying') === 'true';
-        if (wasPlaying) {
+        if (wasPlaying && savedTime) {
+            audio.currentTime = parseFloat(savedTime);
             audio.play().then(() => {
                 isPlaying = true;
                 updateButton();
             }).catch(() => {});
         }
         
-        audio.addEventListener('play', () => {
-            localStorage.setItem('musicWasPlaying', 'true');
-        });
-        audio.addEventListener('pause', () => {
-            localStorage.setItem('musicWasPlaying', 'false');
-        });
-        
         updateButton();
+    })();
 
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
