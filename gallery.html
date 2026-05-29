@@ -117,9 +117,9 @@
         function displayComments() {
             const container = document.getElementById('commentsList');
             if (comments.length === 0) { container.innerHTML = '<div class="comment-item"><div class="comment-name">🎂 Birthday Wishes</div><div class="comment-text">Be the first to leave a message for Adejoke!</div></div>'; return; }
+            function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
             container.innerHTML = comments.map(c => `<div class="comment-item"><div class="comment-name">${escapeHtml(c.name)}</div><div class="comment-text">${escapeHtml(c.message)}</div></div>`).join('');
         }
-        function escapeHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
         document.getElementById('submitComment')?.addEventListener('click', () => {
             const name = document.getElementById('commentName').value.trim();
             const msg = document.getElementById('commentMessage').value.trim();
