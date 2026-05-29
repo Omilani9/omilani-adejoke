@@ -139,6 +139,11 @@
         <p style="margin-top: 6px; font-size: 0.7rem;">OrbitCore — crafted with heart</p>
     </footer>
 
+    <!-- Global Music Player -->
+    <div id="globalMusicBtn" style="position:fixed; bottom:20px; right:20px; background:#8B2E2E; color:white; padding:12px 20px; border-radius:50px; z-index:9999; cursor:pointer; font-family:-apple-system, BlinkMacSystemFont, sans-serif; font-size:14px; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:transform 0.2s;">
+      🎵 Play Music
+    </div>
+
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
@@ -182,6 +187,82 @@
             }
         });
         displayComments();
+
+        // Global Music Player
+        (function() {
+            const btn = document.getElementById('globalMusicBtn');
+            let audio = null;
+            let isPlaying = localStorage.getItem('globalMusicPlaying') === 'true';
+            let currentTime = parseFloat(localStorage.getItem('globalMusicTime') || '0');
+
+            function createAudio() {
+                const a = new Audio('images/song.mp3');
+                a.loop = true;
+                a.volume = 0.5;
+                if (currentTime > 0 && currentTime < a.duration) {
+                    a.currentTime = currentTime;
+                }
+                return a;
+            }
+
+            function saveState() {
+                if (audio) {
+                    localStorage.setItem('globalMusicPlaying', isPlaying);
+                    localStorage.setItem('globalMusicTime', audio.currentTime);
+                }
+            }
+
+            function updateButton() {
+                if (isPlaying) {
+                    btn.innerHTML = '🔊 Playing — Pause';
+                } else {
+                    btn.innerHTML = '🔈 Paused — Play';
+                }
+            }
+
+            function startMusic() {
+                if (!audio) {
+                    audio = createAudio();
+                    audio.addEventListener('timeupdate', () => {
+                        localStorage.setItem('globalMusicTime', audio.currentTime);
+                    });
+                }
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateButton();
+                    saveState();
+                }).catch(() => {
+                    isPlaying = false;
+                    updateButton();
+                });
+            }
+
+            function pauseMusic() {
+                if (audio) {
+                    audio.pause();
+                    isPlaying = false;
+                    updateButton();
+                    saveState();
+                }
+            }
+
+            btn.addEventListener('click', () => {
+                if (!audio) {
+                    startMusic();
+                } else if (isPlaying) {
+                    pauseMusic();
+                } else {
+                    audio.play();
+                    isPlaying = true;
+                    updateButton();
+                    saveState();
+                }
+            });
+
+            if (isPlaying) {
+                startMusic();
+            }
+        })();
     </script>
 </body>
 </html>
