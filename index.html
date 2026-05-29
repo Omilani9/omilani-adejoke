@@ -8,7 +8,7 @@
     <!-- WhatsApp / Social Media Preview Tags -->
     <meta property="og:title" content="Happy Birthday Omilani Adejoke! 🎂" />
     <meta property="og:description" content="Help celebrate Adejoke's birthday — leave your wishes here ❤️" />
-    meta property="og:image" content="https://omilani-adejoke.vercel.app/images/caring.jpg" />
+    <meta property="og:image" content="https://omilani-adejoke.vercel.app/images/hero.jpg" />
     <meta property="og:url" content="https://omilani-adejoke.vercel.app" />
     <meta property="og:type" content="website" />
     
@@ -355,78 +355,91 @@
         <p style="margin-top: 6px; font-size: 0.7rem;">OrbitCore — crafted with heart</p>
     </footer>
 
-    <!-- Music Player with Timestamp (Fixed) -->
-    <div id="musicPlayer" style="position:fixed; bottom:20px; right:20px; background:#8B2E2E; color:white; padding:12px 20px; border-radius:50px; z-index:9999; cursor:pointer; font-family:-apple-system, BlinkMacSystemFont, sans-serif; font-size:14px; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
-        🎵 Play Music
+    <!-- Music Player with Mobile Fix -->
+    <div id="musicPlayer" style="position:fixed; bottom:20px; right:20px; background:#8B2E2E; color:white; padding:12px 20px; border-radius:50px; z-index:9999; cursor:pointer; font-family:-apple-system, BlinkMacSystemFont, sans-serif; font-size:14px; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.2); opacity:0.7;">
+        🎵 Tap to Play
     </div>
-    <audio id="bgMusic" src="images/song.mp3" loop preload="auto"></audio>
+    <audio id="bgMusic" src="images/song.mp3" loop preload="none"></audio>
 
     <script>
-    (function() {
-        const audio = document.getElementById('bgMusic');
-        const btn = document.getElementById('musicPlayer');
+    // Mobile fix: Load song on first user interaction
+    let audioLoaded = false;
+    let audio = document.getElementById('bgMusic');
+    let btn = document.getElementById('musicPlayer');
+    let isPlaying = false;
+    
+    function loadAndPrepareAudio() {
+        if (audioLoaded) return;
         
-        // Load saved timestamp and play state
+        audio.load();
         const savedTime = sessionStorage.getItem('songTimestamp');
-        const wasPlaying = sessionStorage.getItem('musicWasPlaying') === 'true';
-        
-        // Restore timestamp
         if (savedTime && !isNaN(parseFloat(savedTime))) {
             audio.currentTime = parseFloat(savedTime);
         }
-        
-        let isPlaying = false;
-        
-        function updateButton() {
-            btn.innerHTML = isPlaying ? '🔊 Pause Music' : '🎵 Play Music';
-        }
-        
-        // Save timestamp every second
-        setInterval(() => {
-            if (isPlaying) {
-                sessionStorage.setItem('songTimestamp', audio.currentTime);
-            }
-        }, 500);
-        
-        // Save before page unloads
-        window.addEventListener('beforeunload', () => {
-            if (isPlaying) {
-                sessionStorage.setItem('songTimestamp', audio.currentTime);
-                sessionStorage.setItem('musicWasPlaying', 'true');
-            } else {
-                sessionStorage.setItem('musicWasPlaying', 'false');
-            }
-        });
-        
-        btn.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                sessionStorage.setItem('musicWasPlaying', 'false');
-            } else {
-                // Jump to saved position before playing
-                const saved = sessionStorage.getItem('songTimestamp');
-                if (saved && !isNaN(parseFloat(saved))) {
-                    audio.currentTime = parseFloat(saved);
-                }
-                audio.play();
-                isPlaying = true;
-                sessionStorage.setItem('musicWasPlaying', 'true');
-            }
-            updateButton();
-        });
+        audioLoaded = true;
+        btn.style.opacity = '1';
+        btn.innerHTML = '🎵 Play Music';
         
         // Auto-resume if was playing
-        if (wasPlaying && savedTime) {
-            audio.currentTime = parseFloat(savedTime);
+        if (sessionStorage.getItem('musicWasPlaying') === 'true') {
             audio.play().then(() => {
                 isPlaying = true;
-                updateButton();
+                btn.innerHTML = '🔊 Pause Music';
             }).catch(() => {});
         }
+    }
+    
+    // Listen for first touch or click
+    document.body.addEventListener('touchstart', loadAndPrepareAudio, { once: true });
+    document.body.addEventListener('click', loadAndPrepareAudio, { once: true });
+    
+    function updateButton() {
+        btn.innerHTML = isPlaying ? '🔊 Pause Music' : '🎵 Play Music';
+    }
+    
+    // Save timestamp every second
+    setInterval(() => {
+        if (isPlaying && audioLoaded) {
+            sessionStorage.setItem('songTimestamp', audio.currentTime);
+        }
+    }, 500);
+    
+    // Save before page unloads
+    window.addEventListener('beforeunload', () => {
+        if (isPlaying && audioLoaded) {
+            sessionStorage.setItem('songTimestamp', audio.currentTime);
+            sessionStorage.setItem('musicWasPlaying', 'true');
+        } else {
+            sessionStorage.setItem('musicWasPlaying', 'false');
+        }
+    });
+    
+    btn.addEventListener('click', () => {
+        if (!audioLoaded) {
+            loadAndPrepareAudio();
+            setTimeout(() => {
+                audio.play();
+                isPlaying = true;
+                updateButton();
+            }, 100);
+            return;
+        }
         
+        if (isPlaying) {
+            audio.pause();
+            isPlaying = false;
+            sessionStorage.setItem('musicWasPlaying', 'false');
+        } else {
+            const saved = sessionStorage.getItem('songTimestamp');
+            if (saved && !isNaN(parseFloat(saved))) {
+                audio.currentTime = parseFloat(saved);
+            }
+            audio.play();
+            isPlaying = true;
+            sessionStorage.setItem('musicWasPlaying', 'true');
+        }
         updateButton();
-    })();
+    });
 
         // Rest of your existing scripts
         const menuBtn = document.getElementById('menuBtn');
